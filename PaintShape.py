@@ -12,10 +12,11 @@ import sys
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
+
         # setting title
         self.setWindowTitle("Simple Shape Classifier")
         # setting geometry to main window
-        self.setGeometry(100, 100, 612, 612)
+        self.setGeometry(100, 100, 380, 380)
         # creating image object
         self.image = QImage(self.size(), QImage.Format_RGB32)
         # making image color to white
@@ -58,6 +59,18 @@ class Window(QMainWindow):
         fileMenu.addAction(clearAction)
         # adding action to the clear
         clearAction.triggered.connect(self.clear)
+
+        # creating push buttons
+        predictButton = QPushButton("Predict", self)
+        predictButton.setShortcut("Ctrl + P")
+        predictButton.clicked.connect(self.predict)
+        predictButton.move(200, 300)
+
+        # creating push buttons
+        clearButton = QPushButton("Clear", self)
+        clearButton.setShortcut("Ctrl + C")
+        clearButton.clicked.connect(self.clear)
+        clearButton.move(80, 300)
 
     # method for checking mouse cicks
     def mousePressEvent(self, event):

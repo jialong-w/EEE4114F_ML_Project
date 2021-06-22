@@ -48,6 +48,8 @@ class NeuralNetwork(nn.Module):
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
         return x
+
+
 # load model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = torch.load('shapeclassifier.pth')
@@ -88,7 +90,7 @@ def predict_image(image):
     image_tensor = test_transforms(image).float()
     image_tensor = image_tensor.unsqueeze_(0)
     input = Variable(image_tensor)
-    input = input.to(device)
+    input = input.to(device).cpu()
     output = model(input)
     index = output.data.cpu().numpy().argmax()
     return LABELS[index]
@@ -165,7 +167,7 @@ class Window(QMainWindow):
             # creating painter object
             painter = QPainter(self.image)
             # set the pen of the painter
-            painter.setPen(QPen(Qt.black, 10, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            painter.setPen(QPen(Qt.black, 16, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
             # draw line from the last point of cursor to the current point
             # this will draw only one step
             painter.drawLine(self.lastPoint, event.pos())
